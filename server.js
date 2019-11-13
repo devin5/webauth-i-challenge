@@ -2,6 +2,7 @@ const express = require("express");
 const configureMiddleware = require("./middleware/configure-middleware");
 const session = require("express-session");
 const KnexSessionStorage = require("connect-session-knex")(session);
+require("dotenv").config();
 
 // const knexConnection = require("./data/dbConfig");
 
@@ -33,5 +34,8 @@ configureMiddleware(server);
 server.use(express.json());
 server.use(session(sessionConfiguration));
 server.use("/api/auth", authRouter);
+server.get("/", (req, res) => {
+  res.json({ api: "up", session: req.session });
+});
 
 module.exports = server;
